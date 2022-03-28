@@ -6,9 +6,9 @@ from app.services import uploads as service
 router = APIRouter(tags=['File Uploads'], prefix="/file")
 
 @router.post("/uploadfile/")
-async def create_upload_file(file: UploadFile, db):
-    await service.create(file)
-    return {"filename": file.filename}
+async def create_upload_file(file: UploadFile, db: Session = Depends(get_db)):
+    return await service.create(file, db)
+    
 
 # @router.post('/')
 # def download_file():

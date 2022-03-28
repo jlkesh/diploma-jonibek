@@ -33,5 +33,5 @@ class Book(Base):
     page_count: int = Column(Integer, server_default='0')
     created_at: datetime = Column(DateTime, nullable=False, server_default=text('now'))
     created_by: datetime = Column(DateTime, nullable=False, server_default=text('now'))
-    file = relationship('Uploads')
+    # file = relationship('Uploads')
 
