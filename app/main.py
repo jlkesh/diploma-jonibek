@@ -15,7 +15,6 @@ app.include_router(routers.universities_router)
 app.include_router(routers.books_router)
 app.include_router(routers.pictures_router)
 
-
 class  MyException(Exception):
     def __init__(self, message: str) -> None:
         self.message=message
@@ -29,6 +28,7 @@ def root():
 
 @app.exception_handler(RequestValidationError)
 def validation_exception_handler(request, exc):
+    print(exc)
     return JSONResponse(content={'error':str(exc)}, status_code=400)
 
 
