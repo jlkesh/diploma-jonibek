@@ -23,7 +23,6 @@ class Uploads(Base):
     generated_name = Column(String, nullable=False)
     content_type = Column(String, nullable=False)
     path = Column(String, nullable=False)
-    size = Column(Integer, nullable=False)
 
 class Book(Base):
     __tablename__ = 'books'
