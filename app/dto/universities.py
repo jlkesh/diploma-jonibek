@@ -1,28 +1,25 @@
-from fastapi import APIRouter
-
-router = APIRouter(tags=['University Router'], prefix="/universities")
-
-
-@router.post("/")
-def create():
-    pass
+from datetime import datetime
+from pydantic import BaseModel, validator, ValidationError
+from app.dto import GenericDto
 
 
-@router.get("/")
-def get_all():
-    pass
+class UniversityDto(GenericDto):
+    name: str
+    description: str
+    created_at: datetime
+    owner: int
+
+    class Config:
+        orm_mode = True
 
 
-@router.get("/{id}")
-def get(id: int):
-    pass
+class UniversityCreateDto(BaseModel):
+    name: str
+    description: str
+    owner: int
 
 
-@router.put("/{id}")
-def get(id: int):
-    pass
-
-
-@router.delete("/{id}")
-def get(id: int):
-    pass
+class UniversityUpdateDto(GenericDto):
+    name: str
+    description: str
+    owner: int

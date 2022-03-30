@@ -45,14 +45,14 @@ def update(dto: schema.BookUpdateDto, db: Session):
 
 
 def delete(id: int, db: Session):
-    article_query = db.query(Article).filter(Article.id == id)
+    book_query = db.query(Book).filter(Book.id == id)
 
-    article: Article = article_query.first()
+    book: Book = book_query.first()
 
-    if not article:
+    if not book:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Article not found with id : '{id}'")
 
-    article_query.delete(synchronize_session=False)
+    book_query.delete(synchronize_session=False)
 
     db.commit()
 

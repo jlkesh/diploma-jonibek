@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, status
 
 from sqlalchemy.orm import Session
 
-from app import http
+from app import _http
 from app.dto import books as schema
 from app.configs.db_config import get_db
 from app.services import book as service
@@ -21,7 +21,7 @@ def get_all(db: Session = Depends(get_db)):
     return service.get_all(db)
 
 
-@router.get("/{id}", response_model=schema.BookDto, responses=http.get_article)
+@router.get("/{id}", response_model=schema.BookDto, responses=_http.get_article)
 def get(id: int, db: Session = Depends(get_db)):
     return service.get(id, db)
 

@@ -10,12 +10,20 @@ ROLE_CHOICE = (
 )
 
 
+# class Auditable(Base):
+#     __abstract__ = True
+#     created_at: datetime = Column(DateTime, nullable=False, server_default=text('now'))
+#     created_by: int = relationship('Users', back_populates='auditable')
+#     owner_id: int = Column(ForeignKey('user.id'))
+#     is_deleted: bool = Column(Boolean, default=False)
+
+
 class Article(Base):
     __tablename__ = 'article'
     id: int = Column(Integer, primary_key=True, unique=True, index=True, nullable=False)
     title: str = Column(String(length=100), nullable=False)
     short: str = Column(String(length=300), index=False)
-    description: int = Column(Integer, nullable=False)
+    body: int = Column(Integer, nullable=False)
     published: str = Column(Boolean, server_default='False')
     read_count: int = Column(Integer, server_default='0')
     like = relationship("Like", back_populates='article')
@@ -39,9 +47,6 @@ class Book(Base):
     author: int = Column(Integer, nullable=False)
     short_info: str = Column(Boolean, server_default='False')
     page_count: int = Column(Integer, server_default='0')
-    created_at: datetime = Column(DateTime, nullable=False, server_default=text('now'))
-    created_by: datetime = Column(DateTime, nullable=False, server_default=text('now'))
-    # file = relationship('Uploads')
 
 
 class Users(Base):
@@ -49,6 +54,7 @@ class Users(Base):
     id: int = Column(Integer, primary_key=True, unique=True, index=True, nullable=False)
     username: str = Column(String(length=100), index=False)
     password: str = Column(String(length=300))
+    university = relationship('University', back_populates='user')
     university_id: str = Column(Integer, ForeignKey('university.id'))
     is_active: bool = Column(Boolean, server_default='True')
     role: str = Column(String, default='employee', server_default='employee')
@@ -58,8 +64,10 @@ class University(Base):
     __tablename__ = 'university'
     id: int = Column(Integer, primary_key=True, unique=True, index=True, nullable=False)
     name: str = Column(String(length=200))
+    description: str = Column(String(length=500))
     user = relationship('Users', back_populates='university')
-    # rating: int = Column()
+    created_at: datetime = Column(DateTime, server_default='now')
+    owner = Column(Integer, name='Director')
 
 
 class News(Base):
@@ -84,5 +92,5 @@ class Comment(Base):
     id: int = Column(Integer, primary_key=True, unique=True, index=True, nullable=False)
     title: str = Column(String(100))
     body: str = Column(String(500))
-    article = relationship('Article', back_populations='comment')
+    article = relationship('Article', back_populates='comment')
     article_id = Column(Integer, ForeignKey('article.id'))

@@ -4,7 +4,7 @@ from app.services import article as service
 from app.dto import articles as schema
 from sqlalchemy.orm import Session
 from app.configs.db_config import get_db
-from app import http
+from app import _http
 
 
 router = APIRouter(tags=['Article Router'], prefix="/articles")
@@ -20,7 +20,7 @@ def get_all(db:Session = Depends(get_db)):
     return service.get_all(db)
     
 
-@router.get("/{id}",response_model=schema.ArticleDto, responses=http.get_article)
+@router.get("/{id}",response_model=schema.ArticleDto, responses=_http.get_article)
 def get(id: int, db: Session = Depends(get_db)):
     return service.get(id, db)
 

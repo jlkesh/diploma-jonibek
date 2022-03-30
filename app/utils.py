@@ -7,6 +7,7 @@ BASE_DIR = pathlib.Path(__file__).parent.parent
 
 UPLOADS_DIR = join_path(BASE_DIR, 'uploads')
 
+
 def unique_code():
     return f'{time_ns()}{uuid4()}'
 
@@ -17,4 +18,4 @@ def get_extension(filename: str):
 
 def generate_new_name(filename: str):
     return f'{unique_code()}.{get_extension(filename)}'
-    return filename.split(".")[-1]
+    # return filename.split(".")[-1]
