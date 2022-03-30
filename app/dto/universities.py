@@ -18,7 +18,6 @@ def get(id: int):
     pass
 
 
-
 @router.put("/{id}")
 def get(id: int):
     pass
@@ -27,10 +26,3 @@ def get(id: int):
 @router.delete("/{id}")
 def get(id: int):
     pass
-
-
-
-
-
-
-

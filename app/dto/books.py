@@ -3,8 +3,6 @@ from pydantic import BaseModel
 from . import Dto, GenericDto
 
 
-
-
 class BookDto(GenericDto):
     title: str
     short: str
@@ -20,8 +18,11 @@ class BookCreateDto(Dto):
     description: str
     published: bool = False
 
+    class Config:
+        orm_mode = True
 
-class BookUpdateDto(Dto):
+
+class BookUpdateDto(GenericDto):
     title: str
     short: str
     description: str
