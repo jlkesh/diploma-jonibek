@@ -42,13 +42,13 @@ def update(dto: schema.ArticleUpdateDto, db: Session ):
     article: Article = article_query.first()
     
     if not article:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Article not found with id : '{id}'")    
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Article not found with id : '{dto.id}'")    
     
     article_query.update(dto.dict(), synchronize_session=False)
     
     db.commit()
 
-    return True
+    return article_query.first()
 
 
 

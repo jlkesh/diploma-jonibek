@@ -36,26 +36,6 @@ class ArticleCreateDto(BaseModel):
             }
         }
 
-    @validator('title')
-    def valid_title(cls, v: str):
-        if not v:
-            print(uuid.uuid4())
-            raise RequestValidationError('Title Cannot be null')
-
-        if v.isspace():
-            raise RequestValidationError('Title Cannot be blank')
-
-        return v.title()
-
-    @validator('short')
-    def valid_short_info(cls, v: str):
-        if not v:
-            raise ValidationError('Short Description Cannot be null')
-
-        if v.isspace():
-            raise ValidationError('Short Description cannot be blank')
-
-        return v
 
 
 class ArticleUpdateDto(GenericDto):
