@@ -1,6 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel, validator, ValidationError
-from app.dto import GenericDto
+from app.schema import GenericDto
 from app import _http
 
 class UniversityDto(GenericDto):

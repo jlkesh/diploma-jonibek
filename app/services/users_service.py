@@ -1,7 +1,7 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
-from app.dto.users import AuthUserCreateDTO
+from app.schema.user_schema import AuthUserCreateDTO
 from app.entity.entities import Users, University
 
 

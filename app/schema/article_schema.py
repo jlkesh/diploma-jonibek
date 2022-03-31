@@ -5,7 +5,7 @@ import uuid
 from pydantic import BaseModel, validator, Field
 from fastapi.exceptions import RequestValidationError
 
-from app.dto import Dto, GenericDto
+from app.schema import Dto, GenericDto
 
 
 class ArticleDto(GenericDto):
@@ -37,7 +37,7 @@ class ArticleCreateDto(BaseModel):
 
     @validator("title")
     def valid_title(cls, v):
-        if not v:   
+        if not v:
             print(uuid.uuid4())
             raise ValueError('Title Cannot be null')
         if v.isspace():

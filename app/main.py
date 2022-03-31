@@ -29,9 +29,9 @@ def root():
 
 @app.exception_handler(RequestValidationError)
 async def unicorn_exception_handler(request: Request, exc: RequestValidationError):
-    for error in exc.errors():
-        print(error["loc"][1]," -> ",error["msg"])
     return JSONResponse(
-        status_code=400,
+        # for error in exc.errors():
+        #     print(error["loc"][1], " -> ", error["msg"])
+        #     status_code=400,
         content={"message": f"Oops! {exc} did something. There goes a rainbow..."},
     )

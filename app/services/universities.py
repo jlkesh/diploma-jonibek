@@ -1,4 +1,4 @@
-from app.dto import universities as schema
+from app.schema import universities_schema as schema
 from app.entity.entities import University
 from sqlalchemy.orm import Session
 

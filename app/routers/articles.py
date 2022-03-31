@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status
 
 from app.services import article as service 
-from app.dto import articles as schema
+from app.schema import article_schema as schema
 from sqlalchemy.orm import Session
 from app.configs.db_config import get_db
 from app import _http

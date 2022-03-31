@@ -1,4 +1,4 @@
-from app.dto import books as schema
+from app.schema import book_schema as schema
 from app.entity.entities import Book
 
 from sqlalchemy.orm import Session
