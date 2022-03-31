@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 from fastapi import APIRouter, Depends, UploadFile, HTTPException, status
-from fastapi.responses import  FileResponse
-=======
+from fastapi.responses import FileResponse
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
->>>>>>> 71268307fcd036ef35f8b5c40ed67172ddd633da
 from sqlalchemy.orm import Session
 from app.entity.entities import Uploads
 from app.utils import UPLOADS_DIR

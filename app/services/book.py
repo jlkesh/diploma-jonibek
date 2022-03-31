@@ -24,7 +24,7 @@ def get(id: int, db: Session):
     book = db.query(Book).filter(Book.id == id).first()
 
     if not book:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Article not found with id : '{id}'")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Book not found with id : '{id}'")
 
     return book
 

@@ -1,4 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 from datetime import datetime
 from app import routers
 from app.configs.db_config import Base, engine
@@ -25,3 +27,11 @@ def root():
     return {"data": f"It'is Time {datetime.now()}"}
 
 
+@app.exception_handler(RequestValidationError)
+async def unicorn_exception_handler(request: Request, exc: RequestValidationError):
+    for error in exc.errors():
+        print(error["loc"][1]," -> ",error["msg"])
+    return JSONResponse(
+        status_code=400,
+        content={"message": f"Oops! {exc} did something. There goes a rainbow..."},
+    )

@@ -5,6 +5,7 @@ from sqlalchemy.sql.expression import text
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
+
 # class Auditable(Base):
 #     __abstract__ = True
 #     created_at: datetime = Column(DateTime, nullable=False, server_default=text('now'))
@@ -21,10 +22,9 @@ class Article(Base):
     body: str = Column(String, nullable=False)
     published: bool = Column(Boolean, server_default='False')
     read_count: int = Column(Integer, server_default='0')
-    
     created_at: datetime = Column(DateTime, nullable=False, server_default='now')
     created_by: int = Column(Integer, ForeignKey('user.id'), nullable=False)
-    
+
     like = relationship("Like", cascade="all")
     comment = relationship("Comment", cascade="all")
 
@@ -37,8 +37,8 @@ class Uploads(Base):
     content_type: str = Column(String, nullable=False)
     path: str = Column(String, nullable=False)
 
-    created_at: datetime = Column(DateTime, nullable=False ,server_default='now')
-    created_by: int = Column(Integer, ForeignKey('user.id'), nullable = False)
+    created_at: datetime = Column(DateTime, nullable=False, server_default='now')
+    created_by: int = Column(Integer, ForeignKey('user.id'), nullable=False)
 
 
 class Book(Base):
@@ -49,8 +49,8 @@ class Book(Base):
     short_info: str = Column(String)
     page_count: int = Column(Integer, server_default='0')
 
-    created_at: datetime = Column(DateTime, nullable=False ,server_default='now')
-    created_by: int = Column(Integer, ForeignKey('user.id'), nullable = False)
+    created_at: datetime = Column(DateTime, nullable=False, server_default='now')
+    created_by: int = Column(Integer, ForeignKey('user.id'), nullable=False)
 
 
 class Users(Base):
@@ -61,7 +61,7 @@ class Users(Base):
     university_id: int = Column(Integer, ForeignKey('university.id'))
     is_active: bool = Column(Boolean, server_default='True')
     role: str = Column(String, default='employee', server_default='employee')
-    created_at: datetime = Column(DateTime, nullable=False ,server_default='now')
+    created_at: datetime = Column(DateTime, nullable=False, server_default='now')
 
 
 class University(Base):
@@ -70,8 +70,8 @@ class University(Base):
     name: str = Column(String(length=200))
     abbr: str = Column(String(length=10))
     description: str = Column(String(length=500))
-    created_at: datetime = Column(DateTime, nullable=False ,server_default='now')
-    created_by: int = Column(Integer, nullable = False, server_default='-1')
+    created_at: datetime = Column(DateTime, nullable=False, server_default='now')
+    created_by: int = Column(Integer, nullable=False, server_default='-1')
 
 
 class News(Base):
@@ -79,14 +79,14 @@ class News(Base):
     id: int = Column(Integer, primary_key=True, unique=True, index=True, nullable=False)
     title: str = Column(String(300))
     body: str = Column(String)
-    created_at: datetime = Column(DateTime, nullable=False ,server_default='now')
-    created_by: int = Column(Integer, ForeignKey('user.id'), nullable = False)
+    created_at: datetime = Column(DateTime, nullable=False, server_default='now')
+    created_by: int = Column(Integer, ForeignKey('user.id'), nullable=False)
 
 
 class Like(Base):
     __tablename__ = 'like'
     id: int = Column(Integer, primary_key=True, unique=True, index=True, nullable=False)
-    is_like: bool = Column(Boolean, nullable=False)    
+    is_like: bool = Column(Boolean, nullable=False)
     article_id: int = Column(Integer, ForeignKey('article.id'))
     created_at = Column(DateTime, nullable=False, server_default='now')
 
@@ -97,5 +97,5 @@ class Comment(Base):
     message: str = Column(String(100))
     article_id: int = Column(Integer, ForeignKey('article.id'))
 
-    created_at: datetime = Column(DateTime, nullable=False ,server_default='now')
-    created_by: int = Column(Integer, ForeignKey('user.id'), nullable = False)
+    created_at: datetime = Column(DateTime, nullable=False, server_default='now')
+    created_by: int = Column(Integer, ForeignKey('user.id'), nullable=False)
