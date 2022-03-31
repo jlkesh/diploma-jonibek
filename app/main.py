@@ -1,5 +1,3 @@
-import http.client
-import uvicorn
 from fastapi import FastAPI
 from datetime import datetime
 from app import routers
@@ -27,5 +25,3 @@ def root():
     return {"data": f"It'is Time {datetime.now()}"}
 
 
-if __name__ == '__main__':
-    uvicorn.run('main:app')
