@@ -1,11 +1,17 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+
+from sqlalchemy.orm import Session
+
+from app.configs.db_config import get_db
+from app.dto.users import AuthUserCreateDTO
+from app.services import users_service as service
 
 router = APIRouter(tags=['Users Router'], prefix="/users")
 
 
 @router.post("/")
-def create():
-    pass
+def create(dto: AuthUserCreateDTO, db: Session =  Depends(get_db)):
+    return service.create(dto, db)
 
 
 @router.get("/")

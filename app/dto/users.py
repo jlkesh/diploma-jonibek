@@ -1,32 +1,19 @@
-from fastapi import APIRouter
+from enum import Enum
+from typing import Optional
+from pydantic import BaseModel
 
-router = APIRouter(tags=['Users Router'], prefix="/users")
+class Role(str, Enum):
+    EMPLOYEE = 'EMPLOYEE'
+    ADMIN    = 'ADMIN'
 
+class AuthUserCreateDTO(BaseModel):
+    username: str
+    password: str
+    university_id: int
+    is_active: bool = False
+    role: Role = Role.EMPLOYEE 
+    
 
-@router.post("/")
-def create():
-    pass
-
-
-@router.get("/")
-def get_all():
-    pass
-
-
-@router.get("/{id}")
-def get(id: int):
-    pass
-
-
-
-@router.put("/{id}")
-def update(id: int):
-    pass
-
-
-@router.delete("/{id}")
-def delete(id: int):
-    pass
 
 
 

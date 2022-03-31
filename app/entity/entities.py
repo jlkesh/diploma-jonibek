@@ -1,5 +1,4 @@
 from datetime import datetime
-from email.policy import default
 from app.configs.db_config import Base
 from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey
 from sqlalchemy.sql.expression import text
@@ -28,9 +27,9 @@ class Article(Base):
     published: str = Column(Boolean, server_default='False')
     read_count: int = Column(Integer, server_default='0')
     created_at: datetime = Column(DateTime, nullable=False, server_default='now')
-
-    like = relationship("Like", back_populates='article')
-    comment = relationship("Comment", back_populates='article')
+    author_id: int = Column('User', ForeignKey('user.id'), nullable=False)
+    like = relationship("Like", back_populates='article',cascade="all")
+    comment = relationship("Comment", back_populates='article',cascade="all")
 
 
 class Uploads(Base):
@@ -56,16 +55,16 @@ class Users(Base):
     id: int = Column(Integer, primary_key=True, unique=True, index=True, nullable=False)
     username: str = Column(String(length=100), index=False)
     password: str = Column(String(length=300))
-    university_id: str = Column(Integer, ForeignKey('university.id'))
+    university_id: int = Column(Integer, ForeignKey('university.id'))
     is_active: bool = Column(Boolean, server_default='True')
     role: str = Column(String, default='employee', server_default='employee')
-    university = relationship('University', back_populates='user')
 
 
 class University(Base):
     __tablename__ = 'university'
     id: int = Column(Integer, primary_key=True, unique=True, index=True, nullable=False)
     name: str = Column(String(length=200))
+    abbr: str = Column(String(length=10))
     description: str = Column(String(length=500))
     created_at: datetime = Column(DateTime, nullable=False ,server_default='now')
 

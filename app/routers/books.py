@@ -6,7 +6,6 @@ from app import _http
 from app.dto import books as schema
 from app.configs.db_config import get_db
 from app.services import book as service
-from app.dto.books import (BookCreateDto)
 
 router = APIRouter(tags=['Books Router'], prefix="/books")
 
