@@ -31,7 +31,7 @@ class ArticleCreateDto(BaseModel):
             "example": {
                 "title": "Russia's war has cost Ukraine $564.9bn so far - Ukraine",
                 "short": """Russia's war on Ukraine has cost Ukraine $564.9bn (£429.3bn) so far in terms of damage to infrastructure""",
-                "description": """Russian officials deny there is censorship in Russia. Only laws that need to be obeyed.In fact, under the country’s constitution, censorship is forbidden.""",
+                "body": """Russian officials deny there is censorship in Russia. Only laws that need to be obeyed.In fact, under the country’s constitution, censorship is forbidden.""",
                 "published": True
             }
         }

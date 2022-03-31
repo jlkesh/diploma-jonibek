@@ -5,11 +5,6 @@ from sqlalchemy.sql.expression import text
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
-ROLE_CHOICE = (
-    ('admin', "ADMIN"),
-)
-
-
 # class Auditable(Base):
 #     __abstract__ = True
 #     created_at: datetime = Column(DateTime, nullable=False, server_default=text('now'))
@@ -23,31 +18,39 @@ class Article(Base):
     id: int = Column(Integer, primary_key=True, unique=True, index=True, nullable=False)
     title: str = Column(String(length=100), nullable=False)
     short: str = Column(String(length=300), index=False, nullable=False)
-    body: str = Column(Integer, nullable=False)
-    published: str = Column(Boolean, server_default='False')
+    body: str = Column(String, nullable=False)
+    published: bool = Column(Boolean, server_default='False')
     read_count: int = Column(Integer, server_default='0')
+    
     created_at: datetime = Column(DateTime, nullable=False, server_default='now')
-    author_id: int = Column('User', ForeignKey('user.id'), nullable=False)
-    like = relationship("Like", back_populates='article',cascade="all")
-    comment = relationship("Comment", back_populates='article',cascade="all")
+    created_by: int = Column(Integer, ForeignKey('user.id'), nullable=False)
+    
+    like = relationship("Like", cascade="all")
+    comment = relationship("Comment", cascade="all")
 
 
 class Uploads(Base):
     __tablename__ = 'uploads'
     id: int = Column(Integer, primary_key=True, unique=True, index=True, nullable=False)
-    original_name = Column(String, nullable=False)
-    generated_name = Column(String, nullable=False)
-    content_type = Column(String, nullable=False)
-    path = Column(String, nullable=False)
+    original_name: str = Column(String, nullable=False)
+    generated_name: str = Column(String, nullable=False)
+    content_type: str = Column(String, nullable=False)
+    path: str = Column(String, nullable=False)
+
+    created_at: datetime = Column(DateTime, nullable=False ,server_default='now')
+    created_by: int = Column(Integer, ForeignKey('user.id'), nullable = False)
 
 
 class Book(Base):
     __tablename__ = 'books'
     id: int = Column(Integer, primary_key=True, unique=True, index=True, nullable=False)
     name: str = Column(String(length=300), index=False)
-    author: str = Column(Integer, nullable=False)
-    short_info: str = Column(Boolean)
+    author: str = Column(String, nullable=False, index=True)
+    short_info: str = Column(String)
     page_count: int = Column(Integer, server_default='0')
+
+    created_at: datetime = Column(DateTime, nullable=False ,server_default='now')
+    created_by: int = Column(Integer, ForeignKey('user.id'), nullable = False)
 
 
 class Users(Base):
@@ -58,6 +61,7 @@ class Users(Base):
     university_id: int = Column(Integer, ForeignKey('university.id'))
     is_active: bool = Column(Boolean, server_default='True')
     role: str = Column(String, default='employee', server_default='employee')
+    created_at: datetime = Column(DateTime, nullable=False ,server_default='now')
 
 
 class University(Base):
@@ -67,6 +71,7 @@ class University(Base):
     abbr: str = Column(String(length=10))
     description: str = Column(String(length=500))
     created_at: datetime = Column(DateTime, nullable=False ,server_default='now')
+    created_by: int = Column(Integer, nullable = False, server_default='-1')
 
 
 class News(Base):
@@ -74,21 +79,23 @@ class News(Base):
     id: int = Column(Integer, primary_key=True, unique=True, index=True, nullable=False)
     title: str = Column(String(300))
     body: str = Column(String)
-    created_at = Column(DateTime, nullable=False, server_default='now')
+    created_at: datetime = Column(DateTime, nullable=False ,server_default='now')
+    created_by: int = Column(Integer, ForeignKey('user.id'), nullable = False)
 
 
 class Like(Base):
     __tablename__ = 'like'
     id: int = Column(Integer, primary_key=True, unique=True, index=True, nullable=False)
-    is_like: bool = Column(Boolean, nullable=False)
-    article = relationship('Article', back_populates='like')
+    is_like: bool = Column(Boolean, nullable=False)    
     article_id: int = Column(Integer, ForeignKey('article.id'))
     created_at = Column(DateTime, nullable=False, server_default='now')
+
 
 class Comment(Base):
     __tablename__ = 'comment'
     id: int = Column(Integer, primary_key=True, unique=True, index=True, nullable=False)
     message: str = Column(String(100))
-    article_id = Column(Integer, ForeignKey('article.id'))
-    created_at = Column(DateTime, nullable=False, server_default='now')
-    article = relationship('Article', back_populates='comment')
+    article_id: int = Column(Integer, ForeignKey('article.id'))
+
+    created_at: datetime = Column(DateTime, nullable=False ,server_default='now')
+    created_by: int = Column(Integer, ForeignKey('user.id'), nullable = False)

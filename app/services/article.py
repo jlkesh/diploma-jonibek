@@ -11,6 +11,7 @@ from fastapi import Response, status
 
 def create(dto: schema.ArticleCreateDto, db: Session):
     article = Article(**dto.dict())
+    article.created_by = 1
     db.add(article)
     db.commit()
     db.refresh(article)

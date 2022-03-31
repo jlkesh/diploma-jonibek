@@ -4,19 +4,19 @@ from . import Dto, GenericDto
 
 
 class BookDto(GenericDto):
-    title: str
-    short: str
-    description: str
-    published: bool
+    name: str
+    author: str 
+    short_info: str
+    page_count: int
     created_at: datetime
     created_by: int
 
 
 class BookCreateDto(Dto):
-    title: str
-    short: str
-    description: str
-    published: bool = False
+    name: str
+    author: str 
+    short_info: str
+    page_count: int
 
     class Config:
         orm_mode = True
