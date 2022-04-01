@@ -1,36 +1,30 @@
-from fastapi import APIRouter
-
-router = APIRouter(tags=['Comments Router','Testing'], prefix="/comments")
-
-
-@router.post("/")
-def create():
-    pass
+from datetime import datetime
+from pydantic import validator
+from . import Dto, GenericDto
 
 
-@router.get("/")
-def get_all():
-    pass
+class CommentDto(GenericDto):
+    message: str
+    article: int
+    created_at: datetime
+    created_by: int
 
 
-@router.get("/{id}")
-def get(id: int):
-    pass
+class CommentCreateDto(Dto):
+    message: str
+    article: str
+
+    @validator('message')
+    def validate(cls, arg: str):
+        if not arg:
+            raise ValueError('Message Cannot be null')
+        if arg.isspace():
+            raise ValueError('Message Cannot be blank')
+        return arg.title()
+
+    class Config:
+        orm_mode = True
 
 
-
-@router.put("/{id}")
-def get(id: int):
-    pass
-
-
-@router.delete("/{id}")
-def get(id: int):
-    pass
-
-
-
-
-
-
-
+class CommentUpdateDto(GenericDto):
+    message: str

@@ -5,7 +5,6 @@ from sqlalchemy.orm import Session
 from app.configs.db_config import get_db
 from app import _http
 
-
 router = APIRouter(tags=['University Router'], prefix="/universities")
 
 
