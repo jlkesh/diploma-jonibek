@@ -9,8 +9,8 @@ async def create(file: UploadFile, db: Session):
     original_name = file.filename
     generated_name = generate_new_name(original_name)
     content_type = file.content_type
-    path = join_path('uploads', generated_name)
-    uploads = Uploads(original_name=original_name, generated_name=generated_name, content_type=content_type, path=path)
+    uploads = Uploads(original_name=original_name, generated_name=generated_name, content_type=content_type)
+    uploads.created_by = 1
     db.add(uploads)
     db.commit()
     db.refresh(uploads)

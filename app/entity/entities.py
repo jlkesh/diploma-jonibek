@@ -35,8 +35,6 @@ class Uploads(Base):
     original_name: str = Column(String, nullable=False)
     generated_name: str = Column(String, nullable=False)
     content_type: str = Column(String, nullable=False)
-    path: str = Column(String, nullable=False)
-
     created_at: datetime = Column(DateTime, nullable=False, server_default='now')
     created_by: int = Column(Integer, ForeignKey('user.id'), nullable=False)
 
