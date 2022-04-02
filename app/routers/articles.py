@@ -32,10 +32,3 @@ def update(dto: schema.ArticleUpdateDto, db: Session = Depends(get_db)):
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def get(id: int, db: Session = Depends(get_db)):
     return service.delete(id, db)
-
-
-
-
-
-
-

@@ -26,7 +26,7 @@ class ArticleCreateDto(Dto):
     published: bool
 
     @validator("title")
-    def validate(cls, v):
+    def valid_title(cls, v: str):
         if not v:
             print(uuid.uuid4())
             raise ValueError('Title Cannot be null')
@@ -35,7 +35,7 @@ class ArticleCreateDto(Dto):
         return v.title()
 
     @validator("short")
-    def valid(cls, v: str):
+    def valid_short(cls, v: str):
         if not v:
             raise ValueError('Short Description Cannot be null')
 
