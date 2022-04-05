@@ -1,6 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel, validator
-from app.schema import GenericDto
+from app.schema import GenericDto, Dto
 
 
 class UniversityDto(GenericDto):
@@ -13,7 +13,7 @@ class UniversityDto(GenericDto):
         orm_mode = True
 
 
-class UniversityCreateDto(BaseModel):
+class UniversityCreateDto(Dto):
     name: str
     abbr: str
     description: str
@@ -22,8 +22,6 @@ class UniversityCreateDto(BaseModel):
     def validate(cls, value: str):
         if not value:
             raise ValueError('University Name Cannot be not null')
-        if value.isspace():
-            raise ValueError("University Name Cannot be not blank")
 
     @validator('abbr')
     def valid(cls, value: str):

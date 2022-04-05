@@ -7,7 +7,6 @@ from fastapi.exceptions import HTTPException
 from fastapi import Response, status
 
 
-
 def create(dto: schema.UniversityCreateDto, db: Session):
     university = University(**dto.dict())
     db.add(university)
