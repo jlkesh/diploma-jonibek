@@ -14,8 +14,8 @@ router = APIRouter(tags=['Users Router'], prefix="/users")
 
 
 @router.post('/')
-async def user_create(dto: AuthUserCreateDTO, db: Session = Depends(get_db)):
-    return await service.create(dto=dto, db=db)
+def user_create(dto: AuthUserCreateDTO, db: Session = Depends(get_db)):
+    return service.create(dto=dto, db=db)
 
 
 @router.get("/detail")
@@ -24,10 +24,10 @@ async def user_detail(current_user: Users = Depends(get_current_user)):
 
 
 @router.post("/token", response_model=Token)
-async def login(form_data: OAuth2PasswordRequestForm = Depends()):
+async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     username = form_data.username
     password = form_data.password
-    if authenticate(username, password):
+    if authenticate(username, password, db):
         access_token = create_access_token(
             data={"sub": username}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
         return {"access_token": access_token, "token_type": "bearer"}
