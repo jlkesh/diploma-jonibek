@@ -4,12 +4,22 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-fastapi = {extras = ["all"], version = "*"}
 sqlalchemy = "*"
 psycopg2-binary = "*"
 python-multipart = "*"
+python-jose = "*"
+passlib = "*"
+pydantic-i18n = "*"
+tr = "*"
+fastapi-localization = "*"
+python-gettext = "*"
+python-i18n = "*"
 
 [dev-packages]
 
 [requires]
 python_version = "3.8"
+
+[packages.fastapi]
+extras = [ "all",]
+version = "*"
