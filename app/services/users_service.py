@@ -6,7 +6,6 @@ from typing import Optional
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
-from passlib.context import CryptContext
 from passlib.hash import pbkdf2_sha256
 from pydantic import BaseModel
 from app.configs.db_config import get_db

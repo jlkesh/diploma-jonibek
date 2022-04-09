@@ -8,4 +8,4 @@ from .books import router as books_router
 from .pictures import router as pictures_router
 from .exception_handlers import router as exception_handler_router
 from .files import router as uploads_router
-
+from .localization import router as locale_router

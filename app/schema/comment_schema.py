@@ -12,15 +12,13 @@ class CommentDto(GenericDto):
 
 class CommentCreateDto(Dto):
     message: str
-    article: str
+    # article_id: int
 
     @validator('message')
-    def validate(cls, arg: str):
+    def validator(cls, arg: str):
         if not arg:
             raise ValueError('Message Cannot be null')
-        if arg.isspace():
-            raise ValueError('Message Cannot be blank')
-        return arg.title()
+        return arg
 
     class Config:
         orm_mode = True

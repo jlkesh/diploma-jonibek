@@ -1,8 +1,6 @@
 from app.schema import universities_schema as schema
 from app.entity.entities import University
 from sqlalchemy.orm import Session
-
-from fastapi.responses import UJSONResponse
 from fastapi.exceptions import HTTPException
 from fastapi import Response, status
 
@@ -44,6 +42,7 @@ def update(dto: schema.UniversityUpdateDto, db: Session):
 
 
 def delete(id: int, db: Session):
+
     university_query = db.query(University).filter(University.id == id)
 
     university: University = university_query.first()

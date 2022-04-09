@@ -42,6 +42,14 @@ class BookCreateDto(Dto):
             raise ValueError("The book should be at least 1 page long")
 
     class Config:
+        schema_extra = {
+            "example": {
+                "name": "Boy ota va kambag'al ota",
+                "author": """Robert Higasaki""",
+                "short_info": """Russian officials deny there is censorship in Russia""",
+                "page_count": 500
+            }
+        }
         orm_mode = True
 
 
