@@ -1,0 +1,9 @@
+from .news_router import router as news_router
+from .likes_router import router as likes_router
+from .articles_router import router as articles_router
+from .comments_router import router as comments_router
+from .users_router import router as users_router
+from .universities_router import router as universities_router
+from .books_router import router as books_router
+from .pictures_router import router as pictures_router
+from .files_router import router as uploads_router

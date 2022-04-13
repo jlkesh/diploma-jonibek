@@ -7,13 +7,20 @@ name = "pypi"
 sqlalchemy = "*"
 psycopg2-binary = "*"
 python-multipart = "*"
-python-jose = "*"
-passlib = "*"
+
+[packages.python-jose]
+extras = ["cryptography"]
+version = "*"
+
+[packages.passlib]
+extras = ["bcrypt"]
+version = "*"
 pydantic-i18n = "*"
 tr = "*"
 fastapi-localization = "*"
 python-gettext = "*"
 python-i18n = "*"
+pipfile = "*"
 
 [dev-packages]
 
