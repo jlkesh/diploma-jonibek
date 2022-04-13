@@ -16,7 +16,7 @@ def create(article_id, dto: CommentCreateDto, db: Session):
     db.add(comments)
     db.commit()
     db.refresh(comments)
-    return comments
+    return Response(status_code=status.HTTP_201_CREATED), comments
 
 
 def update(id: int, dto: CommentUpdateDto, db: Session):
@@ -25,14 +25,14 @@ def update(id: int, dto: CommentUpdateDto, db: Session):
     if not comment:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Comment not found with id : '{id}'")
     comment_query.update(dto.dict(), synchronize_session=False)
-    return Response(content=comment, status_code=status.HTTP_202_ACCEPTED)
+    return Response(status_code=status.HTTP_202_ACCEPTED), comment
 
 
 def get(id: int, db: Session):
     comment = db.query(Comment).filter(Comment.id == id).first()
     if not comment:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Comment not found with id: '{id}'")
-    return Response(status_code=status.HTTP_200_OK, content=comment)
+    return Response(status_code=status.HTTP_200_OK), comment
 
 
 def get_article_comment(article_id: int, db: Session):

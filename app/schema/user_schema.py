@@ -19,3 +19,11 @@ class AuthUserCreateDTO(BaseModel):
     university_id: int
     is_active: bool = False
     role: Role = Role.EMPLOYEE
+
+
+class User(BaseModel):
+    id: int
+    username: str
+
+    class Config:
+        orm_mode = True

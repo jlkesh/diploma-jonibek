@@ -6,31 +6,32 @@ from typing import Optional
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
-from passlib.hash import pbkdf2_sha256
+from passlib.hash import pbkdf2_sha256, bcrypt
 from pydantic import BaseModel
 from app.configs.db_config import get_db
 from app.schema.user_schema import AuthUserCreateDTO
 from app.entity.entities import Users, University
+from app.schema import user_schema as schemas
 
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 # crypt_context = CryptContext(schemes=["sha256_crypt", "md5_crypt"])
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="users/token")
 
 
 def get_password_hash(password):
-    return pbkdf2_sha256.hash(password)
+    return bcrypt.hash(password)
 
 
-def create(dto: AuthUserCreateDTO, db: Session):
+async def create(dto: AuthUserCreateDTO, db: Session):
     university = db.query(University).filter(University.id == dto.university_id).first()
-    dto.password = get_password_hash(dto.password)
+    dto.password = await get_password_hash(dto.password)
     if not university:
         raise HTTPException(
             detail={'error': f'University not found with provided id({dto.university_id})'},
             status_code=status.HTTP_400_BAD_REQUEST)
-    user = Users(**dto.dict())
+    user = await Users(**dto.dict())
     db.add(user)
     db.commit()
     db.refresh(user)
@@ -46,7 +47,7 @@ def create_access_token(data: dict, expires_delta: timedelta):
 
 
 def verify_password(plain_password, hashed_password):
-    return pbkdf2_sha256.verify(plain_password, hashed_password)
+    return bcrypt.verify(plain_password, hashed_password)
 
 
 def authenticate(username, password, db):
@@ -71,11 +72,11 @@ def get_user(username: str, db):
     try:
         user = db.query(Users).filter(Users.username == username).first()
         return user
-    except Users.DoesNotExist:
+    except Exception:
         return None
 
 
-async def get_current_user(token: str = Depends(oauth2_scheme)):
+async def get_current_user(db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -89,7 +90,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         token_data = TokenData(username=username)
     except JWTError:
         raise credentials_exception
-    user = get_user(username=token_data.username, db=Depends(get_db))
+    user = get_user(username=token_data.username, db=db)
     if user is None:
         raise credentials_exception
-    return user
+    return schemas.User.from_orm(user)

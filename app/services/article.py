@@ -1,4 +1,5 @@
 from app.schema import article_schema as schema
+from app.schema import user_schema as u_schema
 from app.entity.entities import Article
 
 from sqlalchemy.orm import Session
@@ -8,9 +9,8 @@ from fastapi.exceptions import HTTPException
 from fastapi import Response, status
 
 
-def create(dto: schema.ArticleCreateDto, db: Session):
-    article = Article(**dto.dict())
-    article.created_by = 4
+def create(dto: schema.ArticleCreateDto, user: u_schema.User, db: Session):
+    article = Article(**dto.dict(), created_by=user.id)
     db.add(article)
     db.commit()
     db.refresh(article)

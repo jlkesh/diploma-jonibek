@@ -1,11 +1,10 @@
-from typing import List, Optional
-
 import uvicorn
 from fastapi import FastAPI, Header
 from fastapi.exceptions import RequestValidationError
 from datetime import datetime
 
 from fastapi_localization import TranslateJsonResponse
+from starlette.middleware.cors import CORSMiddleware
 
 from app import routers
 from app.configs.db_config import Base, engine
@@ -30,33 +29,21 @@ app.include_router(routers.uploads_router)
 app.include_router(routers.exception_handler_router)
 # app.include_router(routers.locale_router)
 Base.metadata.create_all(bind=engine)
+origins = [
+    'http://localhost:3000'
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=['GET'],
+    allow_headers=['Content-Type', 'application/xml'],
+)
 
 
 @app.get("/")
 def root():
     return {"data": f"It'is Time {datetime.now()}"}
-
-
-from pydantic import BaseModel, EmailStr
-from fastapi_localization import TranslateJsonResponse
-
-
-class InputSchema(BaseModel):
-    email = EmailStr()
-
-
-# @app.post(
-#     '/input', response_class=TranslateJsonResponse)
-# async def countries(value: InputSchema, Accept_Language: Optional[str] = Header(None)):
-#     return [{"value": value, 'Accept-Language': Accept_Language}]
-
-
-@app.get(
-    '/input',
-    response_class=TranslateJsonResponse)
-async def countries(Accept_Language: Optional[str] = Header(None)):
-    return [{'code': 'ru', 'title': 'Russia'},
-            {'code': 'us', 'title': 'USA'}]
 
 
 @app.exception_handler(StarletteHTTPException)
@@ -72,4 +59,4 @@ async def validation_exception_handler(request, exc):
 
 
 if __name__ == '__main__':
-    uvicorn.run('main:app', host="0.0.0.0", port=8080)
+    uvicorn.run('main:app', host="localhost", port=2001)
