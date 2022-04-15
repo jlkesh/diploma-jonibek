@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import Register from "./components/Register";
 
 const App = () => {
     const [message, setMessage] = useState("");
@@ -27,6 +28,7 @@ const App = () => {
     return (
         <h2>
             {message}
+            <Register/>
         </h2>
         // <div className="App">
         //     <div className="App-header">

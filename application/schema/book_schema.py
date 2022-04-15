@@ -1,6 +1,7 @@
 from datetime import datetime
 from pydantic import validator
 from . import Dto, GenericDto
+from ..schema_config import BookCreateConfig
 
 
 class BookDto(GenericDto):
@@ -12,7 +13,7 @@ class BookDto(GenericDto):
     created_by: int
 
 
-class BookCreateDto(Dto):
+class BookCreateDto(BookCreateConfig):
     name: str
     author: str
     short_info: str
@@ -20,7 +21,7 @@ class BookCreateDto(Dto):
     file_id: int
 
     @validator('name')
-    def validate(cls, arg: str):
+    def book_name(cls, arg: str):
         if not arg:
             raise ValueError('Title Cannot be null')
         if arg.isspace():
@@ -28,7 +29,7 @@ class BookCreateDto(Dto):
         return arg.title()
 
     @validator('short_info')
-    def validater(cls, valid: str):
+    def book_short_info(cls, valid: str):
         if not valid:
             raise ValueError("Short body Cannot be null")
         if valid.isspace():
@@ -36,32 +37,40 @@ class BookCreateDto(Dto):
         return valid
 
     @validator('page_count')
-    def validator(cls, valid: int):
+    def book_page_count(cls, valid: int):
         if not valid:
             raise ValueError("Page Cannot be null")
         if valid <= 0:
             raise ValueError("The book should be at least 1 page long")
 
-    # @validator('file_id')
-    # def validator(cls, valid: int):
-    #     if not valid:
-    #         raise ValueError("Page Cannot be null")
-
-    class Config:
-        schema_extra = {
-            "example": {
-                "name": "Boy ota va kambag'al ota",
-                "author": """Robert Higasaki""",
-                "short_info": """Russian officials deny there is censorship in Russia""",
-                "page_count": 500,
-                "file_id": 1
-            }
-        }
-        orm_mode = True
-
 
 class BookUpdateDto(GenericDto):
-    title: str
-    short: str
-    description: str
+    name: str
+    short_info: str
+    page_count: str
     published: bool = False
+
+    @validator('name')
+    def book_name(cls, arg: str):
+        if not arg:
+            raise ValueError('Title Cannot be null')
+        if arg.isspace():
+            raise ValueError('Title Cannot be blank')
+        return arg.title()
+
+    @validator('short_info')
+    def book_short_info(cls, valid: str):
+        if not valid:
+            raise ValueError("Short body Cannot be null")
+        if valid.isspace():
+            raise ValueError("Short body be blank")
+        return valid
+
+    @validator('page_count')
+    def book_page_count(cls, valid: int):
+        if not valid:
+            raise ValueError("Page Cannot be null")
+        if valid <= 0:
+            raise ValueError("The book should be at least 1 page long")
+
+    orm_mode = True

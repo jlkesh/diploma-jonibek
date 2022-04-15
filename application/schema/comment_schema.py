@@ -3,6 +3,7 @@ from datetime import datetime
 from pydantic import validator
 
 from . import Dto, GenericDto
+from ..schema_config import CommentCreateConfig
 
 
 class CommentDto(GenericDto):
@@ -12,26 +13,23 @@ class CommentDto(GenericDto):
     created_by: int
 
 
-class CommentCreateDto(Dto):
+class CommentCreateDto(CommentCreateConfig):
     article_id: int
     message: str
 
     @validator('message')
-    def validator(cls, arg: str):
+    def comment_message(cls, arg: str):
         if not arg:
             raise ValueError('Message Cannot be null')
         return arg
-
-    # @validator('article_id')
-    # def article_check(cls, arg: str):
-    #     if not arg:
-    #         raise ValueError('Article cannot be null')
-    #     return arg
-
-    class Config:
-        orm_mode = True
 
 
 class CommentUpdateDto(GenericDto):
     comment_id: int
     message: str
+
+    @validator('message')
+    def comment_message(cls, arg: str):
+        if not arg:
+            raise ValueError('Message Cannot be null')
+        return arg

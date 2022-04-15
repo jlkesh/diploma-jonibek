@@ -1,13 +1,12 @@
 from datetime import datetime
 from typing import Optional, List
 import uuid
-
 from pydantic import validator
-
 from application.schema import GenericDto, Dto
 from application.schema.comment_schema import CommentDto
 from application.schema.like_schema import LikeDto
 from application.schema.universities_schema import UniversityDto
+from application.schema_config import ArticleCreateConfig
 
 
 class ArticleDto(GenericDto):
@@ -25,7 +24,7 @@ class ArticleDto(GenericDto):
         orm_mode = True
 
 
-class ArticleCreateDto(Dto):
+class ArticleCreateDto(ArticleCreateConfig):
     title: str
     short: str
     body: str
@@ -49,15 +48,14 @@ class ArticleCreateDto(Dto):
             raise ValueError('Short Description cannot be blank')
         return v
 
-    class Config:
-        schema_extra = {
-            "example": {
-                "title": "Russia's war has cost Ukraine $564.9bn so far - Ukraine",
-                "short": """Russia's war on Ukraine has cost Ukraine $564.9bn (£429.3bn) so far in terms of damage to infrastructure""",
-                "body": """Russian officials deny there is censorship in Russia. Only laws that need to be obeyed.In fact, under the country’s constitution, censorship is forbidden.""",
-                "published": True
-            }
-        }
+    @validator("body")
+    def valid_body(cls, v: str):
+        if not v:
+            raise ValueError('Body Description Cannot be null')
+
+        if v.isspace():
+            raise ValueError('Body Description cannot be blank')
+        return v
 
 
 class ArticleUpdateDto(GenericDto):
@@ -66,4 +64,29 @@ class ArticleUpdateDto(GenericDto):
     body: str
     published: bool = False
 
+    @validator("title")
+    def valid_title(cls, v: str):
+        if not v:
+            print(uuid.uuid4())
+            raise ValueError('Title Cannot be null')
+        if v.isspace():
+            raise ValueError('Title Cannot be blank')
+        return v.title()
 
+    @validator("short")
+    def valid_short(cls, v: str):
+        if not v:
+            raise ValueError('Short Description Cannot be null')
+
+        if v.isspace():
+            raise ValueError('Short Description cannot be blank')
+        return v
+
+    @validator("body")
+    def valid_body(cls, v: str):
+        if not v:
+            raise ValueError('Body Description Cannot be null')
+
+        if v.isspace():
+            raise ValueError('Body Description cannot be blank')
+        return v
