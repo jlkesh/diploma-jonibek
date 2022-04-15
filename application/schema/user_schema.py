@@ -32,8 +32,6 @@ class UserCreateDTO(BaseModel):
     username: str
     password: str
     university_id: int
-    is_active: bool = False
-    role: Role = Role.USER
 
 
 class UserLoginDTO(BaseModel):

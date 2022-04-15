@@ -6,23 +6,25 @@ const Register = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [errorMessage, setErrorMessage] = useState("")
-    const [, setToken] = useContext(UserContext)
+    const [errorMessage, setErrorMessage] = useState("");
+    const [, setToken] = useContext(UserContext);
     const submitRegistration = async () => {
-        const requestOptions =
+        let requestOptions =
             {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({username: username, password: password})
+                body: JSON.stringify()
             };
         const response = await fetch('/users/create', requestOptions)
         const data = await response.json();
         if (!response.ok) {
             setErrorMessage(data.detail)
+            console.log(data)
         } else {
             setToken(data.access_token);
+            console.log(data)
         }
     };
 

@@ -12,7 +12,7 @@ export const UserProvider = (props) => {
                     Authorization: "Bearer " + token,
                 },
             };
-            const response = await fetch("users/detail", requestOptions)
+            const response = await fetch("/users/detail", requestOptions)
             if (!response.ok) {
                 setToken(null)
             }
@@ -25,4 +25,5 @@ export const UserProvider = (props) => {
             {props.children}
         </UserContext.Provider>
     )
-}
+};
+export default UserContext;
