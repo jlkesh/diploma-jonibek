@@ -21,7 +21,6 @@ class UserDTO(BaseModel):
     is_active: bool
     role: str
     university_id: int
-    university: int
     created_at: datetime
 
     class Config:

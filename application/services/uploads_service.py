@@ -3,13 +3,13 @@ import shutil
 from fastapi import UploadFile
 from sqlalchemy.orm import Session
 
-from application.configs.oauth2 import has_role
+from application.configs.oauth2 import has_role, has_roles
 from application.entity.entities import Uploads, Users
 from application.utils import join_path, UPLOADS_DIR, generate_new_name
 
 
 async def create(file: UploadFile, db: Session, session_user: Users):
-    has_role(session_user.role, 'ADMIN')
+    has_roles(session_user.role, ['ADMIN', 'SUPER_ADMIN'])
     original_name = file.filename
     generated_name = generate_new_name(original_name)
     content_type = file.content_type

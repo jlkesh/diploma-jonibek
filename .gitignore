@@ -8,7 +8,7 @@
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
-
+/menv/**
 # Generated files
 .idea/**/contentModel.xml
 
@@ -219,3 +219,19 @@ cython_debug/
 /.idea/git_toolbox_prj.xml
 /.idea/misc.xml
 /.idea/.gitignore
+/menv/bin/activate
+/menv/bin/activate.csh
+/menv/bin/activate.fish
+/menv/bin/Activate.ps1
+/menv/lib64/
+/menv/bin/pip
+/menv/bin/pip3
+/menv/bin/pip3.10
+/menv/bin/python
+/menv/bin/python3
+/menv/bin/python3.10
+/menv/pyvenv.cfg
+/menv/lib64/
+/menv/lib64/
+/uploads/
+/menv/

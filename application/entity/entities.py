@@ -62,8 +62,7 @@ class Users(Base):
     username: str = Column(String(length=100), index=False)
     password: str = Column(String(length=300))
     is_active: bool = Column(Boolean, server_default='True')
-    role: str = Column(String, default='employee', server_default='employee')
-
+    role: str = Column(String, server_default='USER')
     university_id: int = Column(Integer, ForeignKey('university.id'))
     created_at: datetime = Column(DateTime, nullable=False, server_default='now')
 

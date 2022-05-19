@@ -55,3 +55,8 @@ def get_session_user(db: Session = Depends(get_db), token: str = Depends(oauth2_
 def has_role(session_user_role, checking_role):
     if session_user_role != checking_role:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={'error': 'Forbidden'})
+
+
+def has_roles(session_user_role, checking_role: list):
+    if session_user_role not in checking_role:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail={'error': 'Forbidden'})
